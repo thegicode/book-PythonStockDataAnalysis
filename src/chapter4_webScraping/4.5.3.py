@@ -6,6 +6,8 @@
 OHLC 데이터 칼럼과 인덱스(DatetimeIndex)를 포함한 데이터프레임만 있으면 
 기존에 사용자들이 수동으로 처리했던 데이터 변환 작업을 모두 자동화해준다는 것이다.
 
+pip install --upgrade mplfinance
+
 imprt mplfinance as mpf
 mpf.plot(OHLC 데이터프레임, [, title=차트제목] [, type=차트형태] [, mav=이동평균선] [, volumne=거래량 표시여부] [, ylabel=y축 레이블])
 
