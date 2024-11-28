@@ -27,3 +27,14 @@
     SHOW TABLES;
     SELECT VERSION();
     DROP DATABASE Investar;
+
+7.  참조 문법
+
+```
+mysql -u root -p
+SHOW DATABASES;
+USE Investar;
+SHOW TABLES;
+SELECT * FROM compnay_info;
+SELECT * FROM daily_price;
+```
