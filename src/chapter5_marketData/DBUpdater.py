@@ -89,7 +89,7 @@ class DBUpdater:
                     """
                     curs.execute(sql)
                     self.codes[code] = company
-                    tmnow = datetime.now().strftime('%Y-%m-%d')
+                    tmnow = datetime.now().strftime('%Y-%m-%d %H:%M')
                     print(f"[{tmnow}] {idx:04d} REPLACE INTO compnay_info VALUES({code}, {company}, {today})")
                 self.conn.commit()
                 print('')
@@ -108,21 +108,26 @@ class DBUpdater:
         """실행 즉시 및 매일 오후 다섯시에 daily_price 테이블 업데이트"""
 
 
+def init_for_test():
+    # 데이터 초기화
+    with dbu.conn.cursor() as curs:
+        print("초기화 중...")
+        curs.execute("DELETE FROM compnay_info")
+        curs.execute("DELETE FROM daily_price")
+        dbu.conn.commit()
+        print("데이터 초기화 완료.")
+    
+    # 코드 재실행 테스트
+    dbu.update_comp_info()
+    print("종목코드 업데이트 완료!")
+
+
 if __name__ == '__main__':
     # DBUpdater 객체 생성 -> DBUpdater의 생성자 내부에서 마라아디비 연결
     dbu = DBUpdater()
 
-    # # 데이터 초기화
-    # with dbu.conn.cursor() as curs:
-    #     print("초기화 중...")
-    #     curs.execute("DELETE FROM compnay_info")
-    #     curs.execute("DELETE FROM daily_price")
-    #     dbu.conn.commit()
-    #     print("데이터 초기화 완료.")
-    
-    # # 코드 재실행 테스트
-    # dbu.update_comp_info()
-    # print("종목코드 업데이트 완료!")
+    # 테스트 위한 초기화
+    # init_for_test()
 
     # compnay_info 테이블에 오늘 업데이트된 내용이 있는지 확인하고 
     # 없으면 read_krx_code를 호출하여 compnay_info 테이블에 업데이트하고 codes 딕셔너리에도 저장
