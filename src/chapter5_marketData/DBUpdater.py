@@ -33,7 +33,7 @@ class DBUpdater:
         
         with self.conn.cursor() as curs:
             sql = """
-            CREATE TABLE IF NOT EXISTS compnay_info (
+            CREATE TABLE IF NOT EXISTS company_info (
                 code VARCHAR(20),
                 company VARCHAR(40),
                 last_update DATE,
@@ -64,6 +64,7 @@ class DBUpdater:
     def __del__(self):
         """소멸자: MariaDB 연결 해제"""
         self.conn.close()
+        self.engine.dispose()
 
 
     def read_krx_code(self, test_mode=False):
@@ -87,13 +88,13 @@ class DBUpdater:
         print("* update_comp_info")
 
         """종목코드를 company_info 테이블에 업데이트한 후 딕셔너리에 저장"""
-        sql = "SELECT * FROM compnay_info"
+        sql = "SELECT * FROM company_info"
         df = pd.read_sql(sql, self.engine)  # SQLAlchemy 엔진 사용
         for idx in range(len(df)):
             self.codes[df['code'].values[idx]] = df['company'].values[idx]
 
         with self.conn.cursor() as curs:
-            sql = "SELECT max(last_update) FROM compnay_info"
+            sql = "SELECT max(last_update) FROM company_info"
             curs.execute(sql)
             rs = curs.fetchone()
             today = datetime.today().strftime('%Y-%m-%d')
@@ -105,13 +106,13 @@ class DBUpdater:
                     code = krx.code.values[idx]
                     company = krx.company.values[idx]
                     sql = f"""
-                    REPLACE INTO compnay_info (code, company, last_update)
+                    REPLACE INTO company_info (code, company, last_update)
                     VALUES ('{code}', '{company}', '{today}')
                     """
                     curs.execute(sql)
                     self.codes[code] = company
                     tmnow = datetime.now().strftime('%Y-%m-%d %H:%M')
-                    print(f"[{tmnow}] {idx:04d} REPLACE INTO compnay_info VALUES({code}, {company}, {today})")
+                    print(f"[{tmnow}] {idx:04d} REPLACE INTO company_info VALUES({code}, {company}, {today})")
                 self.conn.commit()
                 print('')
 
@@ -303,7 +304,7 @@ def reset_test_environment(dbu, config_path='./src/chapter5_marketData/config.js
     # 데이터 초기화
     with dbu.conn.cursor() as curs:
         print("테이블 초기화 중...")
-        curs.execute("DELETE FROM compnay_info")
+        curs.execute("DELETE FROM company_info")
         curs.execute("DELETE FROM daily_price")
         dbu.conn.commit()
         print("테이블 초기화 완료.")
@@ -322,10 +323,10 @@ if __name__ == '__main__':
     test_mode = True
 
     # 테스트 위한 초기화
-    # reset_test_environment(dbu)
+    reset_test_environment(dbu)
 
-    # compnay_info 테이블에 오늘 업데이트된 내용이 있는지 확인하고 
-    # 없으면 read_krx_code를 호출하여 compnay_info 테이블에 업데이트하고 codes 딕셔너리에도 저장
+    # company_info 테이블에 오늘 업데이트된 내용이 있는지 확인하고 
+    # 없으면 read_krx_code를 호출하여 company_info 테이블에 업데이트하고 codes 딕셔너리에도 저장
     try:
         dbu.execute_daily(test_mode=test_mode)
     except KeyboardInterrupt:
