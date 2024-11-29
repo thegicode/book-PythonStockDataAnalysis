@@ -220,7 +220,7 @@ class DBUpdater:
         # 1. update_comp_info() 메서드를 호출하여 상장 법인 목록을 DB에 업데이트한다.
         self.update_comp_info(test_mode=test_mode)
 
-        config_path = './src/chapter5_marketData/config.json'
+        config_path = './src/config.json'
         try:
             # 2. DBUpdater.py가 있는 디렉터리에서 config.json 파일을 읽기 모드로 연다.
             with open(config_path, 'r') as in_file:
