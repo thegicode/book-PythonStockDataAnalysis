@@ -26,6 +26,11 @@
     
     wait_timeout = 288000
 
+5.3.12 Run 레지스트리 등록해 자동 실행하기
+    맥북환경 - GPT > 추천 방식
+    - 초보자: Login Items 방식을 추천. 설정이 간단하고 GUI를 통해 관리가 쉬움.
+    - 개발자: Launch Agents 방식을 추천. 더 세부적인 설정과 로그 확인이 가능.
+
 """
 
 # DBUpdater.py
