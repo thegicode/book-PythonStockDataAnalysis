@@ -35,6 +35,6 @@ mysql -u root -p
 SHOW DATABASES;
 USE Investar;
 SHOW TABLES;
-SELECT * FROM compnay_info;
+SELECT * FROM company_info;
 SELECT * FROM daily_price;
 ```

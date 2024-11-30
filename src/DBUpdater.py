@@ -67,7 +67,7 @@ class DBUpdater:
         self.engine.dispose()
 
 
-    def read_krx_code(self, test_mode=False):
+    def read_krx_code(self, test_mode=False, stocks=None):
         """KRX로부터 상장법인목록 파일을 읽어와서 데이터프레임으로 변환"""
         url = 'https://kind.krx.co.kr/corpgeneral/corpList.do?method=download&searchType=13'
         response = requests.get(url, verify=False)  # 인증서 검증 비활성화
@@ -78,13 +78,17 @@ class DBUpdater:
         krx = krx.rename(columns={'종목코드':'code', '회사명':'company'})
         krx.code = krx.code.map(lambda x: f"{x:06d}")
 
+        # stocks 리스트가 주어진 경우 필터링
+        if stocks:
+            krx = krx[krx['company'].isin(stocks)]
+
         if test_mode == True:
             krx = krx.head(5) # 테스트 
 
         return krx
+    
 
-
-    def update_comp_info(self, test_mode=False):
+    def update_comp_info(self, test_mode=False, stocks=None):
         print("* update_comp_info")
 
         """종목코드를 company_info 테이블에 업데이트한 후 딕셔너리에 저장"""
@@ -100,8 +104,10 @@ class DBUpdater:
             today = datetime.today().strftime('%Y-%m-%d')
 
             if rs[0] is None or rs[0].strftime('%Y-%m-%d') < today:
-                krx = self.read_krx_code(test_mode=test_mode)
-                print("krx:", krx)
+                krx = self.read_krx_code(test_mode=test_mode, stocks=stocks)
+                
+                print("krx\n", krx)
+
                 for idx in range(len(krx)):
                     code = krx.code.values[idx]
                     company = krx.company.values[idx]
@@ -198,6 +204,7 @@ class DBUpdater:
 
         """KRX 상장법인의 주식 시레를 네이버로부터 읽어서 DB에 업데이트"""
         # 1 self.codes 딕셔너리에 저장된 모든 종목코드에 대해 순회처리한다.
+
         for idx, code in enumerate(self.codes):
             # 2. read_naver() 메서드를 이용하여 종목코드에 대한 일별 시세 데이터 프레임을 구한다.
             df = self.read_naver(code, self.codes[code], pages_to_fetch, test_mode=test_mode)
@@ -208,7 +215,7 @@ class DBUpdater:
             self.replace_into_db(df, idx, code, self.codes[code])
 
 
-    def execute_daily(self, test_mode=False):
+    def execute_daily(self, test_mode=False, stocks=None):
         print("\n* execute_daily")
         """실행 즉시 및 매일 오후 다섯시에 daily_price 테이블 업데이트"""
 
@@ -218,7 +225,7 @@ class DBUpdater:
             return
 
         # 1. update_comp_info() 메서드를 호출하여 상장 법인 목록을 DB에 업데이트한다.
-        self.update_comp_info(test_mode=test_mode)
+        self.update_comp_info(test_mode=test_mode, stocks=stocks)
 
         config_path = './src/config.json'
         try:
@@ -320,15 +327,17 @@ if __name__ == '__main__':
     # DBUpdater 객체 생성 -> DBUpdater의 생성자 내부에서 마라아디비 연결
     dbu = DBUpdater()
 
-    test_mode = True
+    test_mode = False
+
+    stocks = ['삼성전자', 'SK하이닉스', '현대자동차', 'NAVER']
 
     # 테스트 위한 초기화
-    reset_test_environment(dbu)
+    # reset_test_environment(dbu)
 
     # company_info 테이블에 오늘 업데이트된 내용이 있는지 확인하고 
     # 없으면 read_krx_code를 호출하여 company_info 테이블에 업데이트하고 codes 딕셔너리에도 저장
     try:
-        dbu.execute_daily(test_mode=test_mode)
+        dbu.execute_daily(test_mode=test_mode, stocks=stocks)
     except KeyboardInterrupt:
         print("\nShutdown signal received. Cleaning up...")
         dbu.stop()
