@@ -329,7 +329,7 @@ if __name__ == '__main__':
 
     test_mode = False
 
-    stocks = ['삼성전자', 'SK하이닉스', '현대자동차', 'NAVER']
+    stocks = ['삼성전자', 'SK하이닉스', '현대자동차', 'NAVER', '엔씨소프트']
 
     # 테스트 위한 초기화
     # reset_test_environment(dbu)
