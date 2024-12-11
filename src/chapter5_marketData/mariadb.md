@@ -34,7 +34,7 @@
 
 8.  추가
     INSERT INTO company_info (code, company, last_update)
-    VALUES ('360200', 'ACE 미국S&P500', '2024-12-11');
+    VALUES ('042700', '한미반도체', '2024-12-11');
 
 9.  참조 문법
 

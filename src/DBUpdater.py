@@ -89,7 +89,7 @@ class DBUpdater:
     
 
     def update_comp_info(self, test_mode=False, stocks=None):
-        print("* update_comp_info")
+        print("* update_comp_info", stocks)
 
         """종목코드를 company_info 테이블에 업데이트한 후 딕셔너리에 저장"""
         sql = "SELECT * FROM company_info"
@@ -134,6 +134,8 @@ class DBUpdater:
             
             url = f'https://finance.naver.com/item/sise_day.naver?code={code}'
             request = Request(url, headers=headers)
+
+            print(url)
 
             with urlopen(request, context=ssl_context) as response:
                 html = BeautifulSoup(response, 'lxml')
