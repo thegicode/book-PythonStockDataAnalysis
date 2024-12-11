@@ -28,10 +28,19 @@
     SELECT VERSION();
     DROP DATABASE Investar;
 
-7.  참조 문법
+7.  삭제
+    DELETE FROM company_info
+    WHERE company IN ('엔씨소프트', '현대자동차');
+
+8.  추가
+    INSERT INTO company_info (code, company, last_update)
+    VALUES ('360200', 'ACE 미국S&P500', '2024-12-11');
+
+9.  참조 문법
 
 ```
 mysql -u root -p
+code
 SHOW DATABASES;
 USE Investar;
 SHOW TABLES;

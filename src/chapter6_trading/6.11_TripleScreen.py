@@ -12,9 +12,11 @@ sys.path.append(project_root)
 
 from src.MarketDB import MarketDB 
 
+symbol = 'ACE 미국S&P500'
+
 # 데이터 불러오기
 mk = MarketDB()
-df = mk.get_daily_price('엔씨소프트', '2023-01-04')
+df = mk.get_daily_price(symbol, '2023-01-04')
 
 # EMA 및 MACD 계산
 ema60 = df.close.ewm(span=60).mean()
@@ -60,23 +62,30 @@ for date, price in sell_signals:
     df.loc[date, 'sell_signal'] = price  # 매도 신호 추가
 
 # mplfinance 추가 지표
+# mplfinance 추가 지표
 apds = [
     mpf.make_addplot(df['ema130'], color='cyan', label='EMA130'),  # EMA130 추가
     mpf.make_addplot(df['fast_k'], panel=1, color='blue', label='%K'),  # %K 추가
     mpf.make_addplot(df['slow_d'], panel=1, color='black', label='%D'),  # %D 추가
     mpf.make_addplot(df['macd'], panel=2, color='blue', label='MACD'),  # MACD 추가
     mpf.make_addplot(df['signal'], panel=2, color='green', linestyle='dashed', label='MACD Signal'),  # MACD Signal 추가
-    mpf.make_addplot(df['macdhist'], panel=2, type='bar', color='magenta', alpha=0.5, label='MACD-Hist'),  # MACD 히스토그램 추가
-    mpf.make_addplot(df['buy_signal'], scatter=True, markersize=50, marker='^', color='red', label='Buy Signal'),  # 매수 신호
-    mpf.make_addplot(df['sell_signal'], scatter=True, markersize=50, marker='v', color='blue', label='Sell Signal')  # 매도 신호
+    mpf.make_addplot(df['macdhist'], panel=2, type='bar', color='magenta', alpha=0.5, label='MACD-Hist')  # MACD 히스토그램 추가
 ]
+
+# 매수 신호가 있으면 추가
+if not df['buy_signal'].isna().all():
+    apds.append(mpf.make_addplot(df['buy_signal'], scatter=True, markersize=50, marker='^', color='red', label='Buy Signal'))
+
+# 매도 신호가 있으면 추가
+if not df['sell_signal'].isna().all():
+    apds.append(mpf.make_addplot(df['sell_signal'], scatter=True, markersize=50, marker='v', color='blue', label='Sell Signal'))
 
 # mplfinance 차트 플롯
 mpf.plot(
     df,
     type='candle',
     addplot=apds,
-    title='Triple Screen Trading - Second Screen (NCSOFT)',
+    title=f'Triple Screen Trading - Second Screen ({symbol})',
     style='yahoo',
     volume=False,
     panel_ratios=(3, 1, 1),  # 패널 크기 비율 (가격, Stochastic, MACD)

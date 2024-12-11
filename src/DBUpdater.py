@@ -134,7 +134,7 @@ class DBUpdater:
             
             url = f'https://finance.naver.com/item/sise_day.naver?code={code}'
             request = Request(url, headers=headers)
-            
+
             with urlopen(request, context=ssl_context) as response:
                 html = BeautifulSoup(response, 'lxml')
                 pgrr = html.find('td', class_='pgRR')
@@ -329,7 +329,9 @@ if __name__ == '__main__':
 
     test_mode = False
 
-    stocks = ['삼성전자', 'SK하이닉스', '현대자동차', 'NAVER', '엔씨소프트']
+    # stocks = ['삼성전자', 'SK하이닉스', '현대자동차', 'NAVER', '엔씨소프트', 'ACE 미국S&P500']
+    stocks = ['ACE 미국S&P500']
+
 
     # 테스트 위한 초기화
     # reset_test_environment(dbu)
