@@ -30,11 +30,11 @@
 
 7.  삭제
     DELETE FROM company_info
-    WHERE company IN ('엔씨소프트', '현대자동차');
+    WHERE company IN (' ACE 미국나스닥', '현대자동차');
 
 8.  추가
     INSERT INTO company_info (code, company, last_update)
-    VALUES ('042700', '한미반도체', '2024-12-11');
+    VALUES ('100367380', 'ACE 미국나스닥', '2024-12-11');
 
 9.  참조 문법
 

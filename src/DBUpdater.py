@@ -341,7 +341,7 @@ if __name__ == '__main__':
     # company_info 테이블에 오늘 업데이트된 내용이 있는지 확인하고 
     # 없으면 read_krx_code를 호출하여 company_info 테이블에 업데이트하고 codes 딕셔너리에도 저장
     try:
-        dbu.execute_daily(test_mode=test_mode, stocks=stocks)
+        dbu.execute_daily(test_mode=test_mode)
     except KeyboardInterrupt:
         print("\nShutdown signal received. Cleaning up...")
         dbu.stop()
