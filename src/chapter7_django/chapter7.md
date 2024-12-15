@@ -118,3 +118,137 @@ tree -f
     ```
 
 ### 7.2.7 장고 관리자 페이지
+
+-   사용자 및 그룹에 대한 권한 설정
+
+```
+python3 manage.py createsuperuser
+http://localhost:8000/admin
+
+```
+
+<br>
+<hr>
+<br>
+
+## 7.3 장고 인덱스 페이지
+
+-   html 코드 부분을 template 파일로 작성, 동적인 데이터 부분은 파이썬 코드로 개발하는 것이 효율적
+-   장고에서는 보안성을 높이려는 의도로 파이썬 코드와 html 페이지들을 한 디렉터리에 두지 못한다.
+    -   또한 장고에서 이미지 파일을 표시하려면 추가 절차가 필요하다.
+
+### 7.3.1 index 애플리케이션 생성하기
+
+-   index 애플리케이션 생성
+
+    ```
+    python3 manage.py startapp index
+    ```
+
+-   [settings.py](../../Investar/Investar/settings.py)
+    -   INSTALLED_APPS에 'index' 앱 추가
+
+### 7.3.2 URLConf 추가하기
+
+-   [urls.py](../../Investar/Investar/urls.py)
+    -   index 모듈 내의 views를 index_views로 임포트
+    -   마지막 라인에 path() 함수 추가하여 URLConf를 수정
+    -   URL이 'index/'이면 index 애플리케이션 뷰의 main_view()함수로 매핑s하라는 의미
+
+### 7.3.3 뷰 수정하기
+
+-   [views.py](../../Investar/index/views.py)
+-   main_view() 함수는 단순히 django.shortcuts의 render() 함수에 템플릿으로 사용할 파일명(index.html)만 넘겨주는 역할
+
+### 7.3.4 템플릿 작서
+
+-   index/template 디렉터리 생성
+-   [index.html](../../Investar/index/templates/index.html)
+-   이미지도 template 폴더 안에
+
+    ```
+    tree -f
+    http://localhost:8000/index/
+
+    ```
+
+### 7.3.5 템플릿 태그
+
+-   static, static/index 디렉터리 생성
+-   이미지를 static/index 아래로 이동
+
+-   [index.html](../../Investar/index/templates/index.html)
+
+    ```
+    {% load static %}
+    <link rel="stylesheet" href={% static "index/style.css" %} />
+    <img src={% static "index/Django_Logo.jpg" %} /></a>
+    ```
+
+### 7.3.6 CSS
+
+-   [style.css](../../Investar/index/static/index/style.css)
+-   http://localhost:8000/index/
+
+<br>
+<hr>
+<br>
+
+## 7.4 웹으로 계좌 잔고 확인하기
+
+### 7.4.1 balance 애플리케이션 생성하기
+
+-   balance 애플리케이션 생성
+
+    ```
+    python3 manage.py startapp balance
+    ```
+
+-   [setting.py](../../Investar/Investar/settings.py) 수정
+    -   INSTALLED_APPS에 'balance' 추가
+
+### 7.4.2 URLConf 추가하기
+
+-   [urls.py](../../Investar/Investar/urls.py)
+    -   'path('balance/', balance_views.main_view)'
+
+### 7.4.3 현재가 구하기
+
+[네이버 종목별 시세](https://finance.naver.com/item/sise.nhn?code=035420)
+
+### 7.4.4 뷰 수정하기
+
+[views.py](../../Investar/balance/views.py)
+
+### 7.4.5 뷰에서 템플릿으로 컨텍스트 전달하기
+
+-   템플릿에서 표시해야 할 컨텍스트가 있다면 딕셔너리 형태로 render() 함수의 세 번째 인수를 통해 넘겨주면 된다.
+
+    -   위의 코드에서는 values = {'rows': rows, 'total': totalAmlount}
+    -   rows는 중첩된 리스트이기 때문에 템플릿에서도 {% for %} 태그를 중첩해서 사용해야 rows의 모든 원소를 출력할 수 있다.
+
+    ```
+    {% for row in rows %}
+    <tr>
+        {% for x in row %}
+        <td>{{ x }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    ```
+
+### 7.4.6 템플릿 작성
+
+-   balance/templates 디렉터리 생성, balance.html 추가
+-   [balance.html](../../Investar/balance/templates/balance.html)
+
+### 7,4.7 캐스캐이딩 스타일 시트 적용
+
+-   [b_style.css](../../Investar/balance/static/b_style.css)
+
+### 7.4.8 웹으로 계좌 잔고 확인하기
+
+-   장고 서버 재시작하고
+-   http://localhost:8000/balance/?035420=30&005930=20
+-   장고에서 웹 페이지로 표시하려면 URL 처리, 뷰 처리, 템플릿 태그 처리 등 기본적으로 거쳐야 하는 과정이 제법 있다.
+-   더 익히고 싶다면 6장의 트레이딩 전략
