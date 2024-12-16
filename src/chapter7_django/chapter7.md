@@ -251,4 +251,44 @@ http://localhost:8000/admin
 -   장고 서버 재시작하고
 -   http://localhost:8000/balance/?035420=30&005930=20
 -   장고에서 웹 페이지로 표시하려면 URL 처리, 뷰 처리, 템플릿 태그 처리 등 기본적으로 거쳐야 하는 과정이 제법 있다.
--   더 익히고 싶다면 6장의 트레이딩 전략
+-   더 익히고 싶다면 6장의 트레이딩 전략결과를 장고 웹 페이지로
+
+<br>
+<hr>
+<br>
+
+## 7.5 슬랙으로 알림 메시지 보내기
+
+-   매매 체결 내역이라든가 서버 시스템 에러 상황을 사용자에게 알려줄 때 요긴하다.
+    -   또한 주기적으로 계좌 잔고를 보내주거나 주가가 5% 이상 등락할 때 알림 메시지를 보내주는 등 활용 방안이 많기 때문에 시스템 자동화에 반드시 필요한 라이브러리다.
+
+### 7.5.1 슬랙의 특징
+
+### 7.5.2 워크스페이스와 앱 만들기
+
+-   [슬랙](https://slack.com/)에 접속해 워크스페이스를 만든다.
+    -   Create Workspace
+-   [슬랙 API](https://api.slack.com/)
+    -   Create Slack App
+    -   mySlackBot, Investar
+
+### 7.5.3 봇 기능 추가하기
+
+-   앱이 생성된 다음에는 화면 좌측에 있는 OAuth & Permissions
+
+### 7.5.4 토큰 발급하기
+
+-   Bots의 토큰 영역을 설정하는 것
+    -   Bot Token Scopes, chat:write, Add an OAuth Scope
+    -   이후 'Install App to Workspace' -> 앱을 인증받을 때 사용할 수 있는 토큰이 발급된다.
+-   토큰은 일종의 패스워드와 같은 개념으로, 토큰 종류에 따라 사용할 수 있는 슬랙 API 범위가 달라진다.
+-   xoxb로 시작되는 봇 사용자용 토큰을 사용(Bot User OAuth Access Token)
+
+### 7.5.5 슬랙으로 메시지 보내기
+
+-   슬랙 API를 사용해서 메시지를 보내려면 파이썬 외부 라이브러리인 slacker가 필요하므로, 명령창에서 pip install slacker를 입력하여 설치
+-   Slacker 객체를 생성하여 봇 사용자용 토큰을 넘겨주어야 한다.
+    -   post_message() 함수의 첫 번째 인수로 워크스페이스가 아닌 채팅방이름 channel을 넘겨줘야 한다.
+    -   채널명 앞 부분에 있는 #은 있으나 없으나 상관없다.
+-   [슬랙 message](./slack_message.py)
+-   [슬랙 markdown](./slack_markdown.py)
