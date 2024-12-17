@@ -290,5 +290,65 @@ http://localhost:8000/admin
 -   Slacker 객체를 생성하여 봇 사용자용 토큰을 넘겨주어야 한다.
     -   post_message() 함수의 첫 번째 인수로 워크스페이스가 아닌 채팅방이름 channel을 넘겨줘야 한다.
     -   채널명 앞 부분에 있는 #은 있으나 없으나 상관없다.
--   [슬랙 message](./slack_message.py)
--   [슬랙 markdown](./slack_markdown.py)
+-   [슬랙 message](./7.1_slack_message.py)
+-   [슬랙 markdown](./7.2_slack_markdown.py)
+
+<br>
+<hr>
+<br>
+
+## 7.6 백트레이더를 활용한 백테스트
+
+-   백테스트는 최근 인기를 끌고 있는 퀀트 투자에서 핵심 요소다.
+-   조금이라도 더 신뢰할 수 있는 결과를 얻으려면 최대한 긴 기간 동안 수집된 다량의 데이터를 이용해 검증해야 한다.
+-   여러 통계 지표
+    -   GAGR(Compound Annual Growth Rates, 연평균 성장률)
+    -   MDD(Maximum Drawdown, 최대 손실 낙폭)
+    -   상관계수(Coefficient of Correleation)
+    -   샤프지수 (Shape Ratio)
+-   백테스트 파이쎤 라이브러리 : 최근 들어 오픈 소스 기반의 백트레이더 라이브러리가 각광을 받는데, 문서화가 잘 되어있고 무엇보다 다른 라이브러리에 비해서 직관적이고 사용하기 쉽다.
+
+### 7.6.1 백트레이더 설치
+
+-   pip install backtrader
+-   pip install matplotlib
+-   [backtrader](https://www.backtrader.com/)
+    -   Quickstart guide
+
+### 7.6.2 상대적 강도 지수 RSI relative strength index
+
+-   상대적 강도 지수를 이용해서 매매했을 때의 수익률을 확인
+-   가격의 움직임의 강도를 백분율로 나타낸다.
+    -   언제 추세가 전환될지 예측하는 데 유용
+-   RS = N일간의 상승폭 평균 / N일간의 하락폭 평균
+-   RSI = 100 - 100 / (1 + RS)
+-   일반적으로 RSI가 70이상일 때 과매수 overbought 구간으로 보고 매도 시점으로 해석한다.
+    -   반대로 30 이하이면 과매도 oversold 구간으로 보고 매수 지점으로 해석한다.
+
+### 7.6.3 RSI를 이용한 단순 백테스트
+
+-   천만 원의 초기 투자 금액으로 RSI 지표에 따라 매매했을 때의 백테스트 결과를 출력
+-   [7.3_Backtrader_RSI](./7.3_Backtrader_RSI.py)
+
+### 7.6.4 RSI_SMA를 이용한 백테스트
+
+-   기존에 사용한 RSI 지표 대신 21일 단순 이동 평균에 대한 RSI_SMA를 지표로 사용
+-   RSI_SMA는 커틀러 RSI라고도 하며 상승분과 하락분을 계산할 때 지수 이동 평균 대신 단순 이동 평균을 이용한다.
+-   bt.indicators 패키지는 Accdecoscillator, ATR, Bollinger, CCI, Crossover, Deviation, DirectionalMove, DMA, EMA, Ichimoku, MACD, Momentum, Sma, Stochastic, Williams, WMA 등 대부분 지표를 이미 모듈로 제공하고 있다.
+-   [7.4_Backtrader_RSI_SMA](./7.4_Backtrader_RSI_SMA.py)
+-   그래프 설명 :
+
+    -   1 현금/전체 자산 비율:
+        -   자산 가치를 나타내는 파란 선과 현금을 나타내는 빨간 선
+        -   우측 상단의 빨간 박스로 표시된 부분은 포트폴리오에서 남은 최종 현금
+    -   2 매매 결과에 대한 수익 금액
+
+        -   파란 원은 수익을 나타내고 빨간 원은 손실을 나타낸다.
+        -   원의 높이가 바로 수익 또는 손실 금액의 크기다.
+
+    -   3 주가 차트 및 매수/매도 시점
+        -   주가 흐름을 캔들스틱 차트로 나타낸다.
+        -   매수 시점을 연두색 삼각형으로, 매도 시점을 빨간 삼각형으로 표시
+    -   4 RSI SMA 그래프
+        -   상대적 강도 지수와 단순 이동 평균 RSI SMA을 보여준다.
+        -   빨간 색 점선 원으로 표시한 부분을 보면 상대적 갇도 지수가 30이하이므로 과매도 시점으로 판단할 수 있고, 이후 하락하면 주가가 상승으로 추세 전환하는 모습을 확인할 수 있다.
