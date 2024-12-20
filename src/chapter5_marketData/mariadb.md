@@ -34,7 +34,7 @@
 
 8.  추가
     INSERT INTO company_info (code, company, last_update)
-    VALUES ('100367380', 'ACE 미국나스닥', '2024-12-11');
+    VALUES ('305080', 'TIGER 미국채10년선물', '2024-12-18');
 
 9.  참조 문법
 
