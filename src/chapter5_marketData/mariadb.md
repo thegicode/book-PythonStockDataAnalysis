@@ -30,11 +30,14 @@
 
 7.  삭제
     DELETE FROM company_info
-    WHERE company IN (' ACE 미국나스닥', '현대자동차');
+    WHERE company IN ('메리츠금융지주');
 
 8.  추가
     INSERT INTO company_info (code, company, last_update)
+    VALUES ('138040', '메리츠금융지주', '2024-12-27');
+
     VALUES ('305080', 'TIGER 미국채10년선물', '2024-12-18');
+    VALUES ('005930', '삼성전자', '2024-12-18');
 
 9.  참조 문법
 

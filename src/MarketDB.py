@@ -80,6 +80,14 @@ class MarketDB:
         df = pd.read_sql(sql, self.engine)
         df.index = pd.to_datetime(df['date'])
         return df.sort_index()  # 날짜 순서 정렬 (오름차순)
+    
+    def format_date(self, date):
+        """날짜 문자열을 'YYYY-MM-DD' 형식으로 변환"""
+        try:
+            formatted_date = pd.to_datetime(date).strftime('%Y-%m-%d')
+            return formatted_date
+        except Exception as e:
+            raise ValueError(f"Invalid date format: {date}. Please use 'YYYY-MM-DD'.") from e
 
 
 

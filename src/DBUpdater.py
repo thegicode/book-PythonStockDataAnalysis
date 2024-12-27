@@ -332,7 +332,7 @@ if __name__ == '__main__':
     test_mode = False
 
     # stocks = ['삼성전자', 'SK하이닉스', '현대자동차', 'NAVER', '엔씨소프트', 'ACE 미국S&P500']
-    stocks = ['ACE 미국S&P500', 'TIGER 미국채10년선물']
+    stocks = ['메리츠금융지주', 'TIGER 미국채10년선물']
 
 
     # 테스트 위한 초기화
