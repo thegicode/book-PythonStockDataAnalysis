@@ -14,15 +14,15 @@ sec_dpc.iloc[0] = 0
 msft_dpc = (msft['Close']/msft['Close'].shift(1) -1) * 100
 msft_dpc.iloc[0] = 0
 
-# plt.hist(sec_dpc, bins=18)
-# plt.grid(True)
-# plt.show()
+plt.hist(sec_dpc, bins=18)
+plt.grid(True)
+plt.show()
 
 print(sec_dpc.describe())
 
-# plt.hist(msft_dpc, bins=18)
-# plt.grid(True)
-# plt.show()
+plt.hist(msft_dpc, bins=18)
+plt.grid(True)
+plt.show()
 
 print(msft_dpc.describe())
 

@@ -18,8 +18,8 @@ kospi = yf.download('^KS11', start='2000-01-04')
 
 print(len(dow), len(kospi)) 
 # 6262 6136
-# 산점도를 그리려면 x,y의 사이즈가 동일해야 한다.
 
+# 산점도를 그리려면 x,y의 사이즈가 동일해야 한다.
 df = pd.DataFrame({'Dow': dow['Close'], "KOSPI": kospi['Close']})
 print(df)
 
