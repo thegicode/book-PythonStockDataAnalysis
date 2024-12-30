@@ -17,18 +17,17 @@ corr = df.corr()
 
 # 결과 출력
 print(corr)
-
 #             DOW     KOSPI
 # DOW    1.000000  0.819173
 # KOSPI  0.819173  1.000000
 
 ### 3.7.2 시리즈로 상관계수 구하기
 r_value = df['DOW'].corr(df['KOSPI'])
-print(r_value)
+print('상관계수: ', r_value)
 # 0.8191730265666881
 
 ### 3.7.3 결정계수 R-squared 구하기
 # 결정계수는 상관계수를 제곱
 r_squared = r_value ** 2
-print(r_squared)
+print('결정계수: ', r_squared)
 # 0.6710444474544279
