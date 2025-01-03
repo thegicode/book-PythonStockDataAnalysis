@@ -9,7 +9,7 @@ sys.path.append(project_root)
 from src.MarketDB import MarketDB 
 
 mk = MarketDB()
-df = mk.get_daily_price('NAVER', '2021-01-04')
+df = mk.get_daily_price('ACE 미국S&P500', '2024-01-04')
 
 df['MA20'] = df['close'].rolling(window=20).mean()  
 df['stddev'] = df['close'].rolling(window=20).std() 

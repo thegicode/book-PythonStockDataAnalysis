@@ -20,15 +20,15 @@ for s in stocks:
 # print(df)
 
 # 1. 일간 변동률
-daily_ret = df.pct_change()
+daily_ret = df.pct_change() # 백분율 변화율
 # print(daily_ret)
 
-# 2. 연간 수익률, 252 : 미국 1년 평균 개장일
-annual_ret = daily_ret.mean() * 252
+# 2. 연간 수익률, 미국 1년 평균 개장일 252일
+annual_ret = daily_ret.mean() * 252 # 연간수익률 : 일별 평균 수익률 * 연간 거래일 수(252일) 
 # print("annual_ret\n", annual_ret)
 
-# 3. 일간 리스크, 일간 변동률의 공분산
-daily_cov = daily_ret.cov()
+# 3. 일간 리스크, 일간 변동률의 공분산 (Covariance)
+daily_cov = daily_ret.cov() # 모든 자산 쌍의 공분산을 계산하여 공분산 행렬(Covariance Matrix)을 반환
 # print(daily_cov)
 
 # 4. 연간 공분산

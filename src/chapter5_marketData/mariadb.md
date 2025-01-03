@@ -34,8 +34,9 @@
 
 8.  추가
     INSERT INTO company_info (code, company, last_update)
-    VALUES ('005930', '삼성전자', '2024-12-27');
+    VALUES ('390390', 'KODEX 미국반도체MV', '2025-01-03');
 
+    VALUES ('161510', 'PLUS 고배당주', '2025-01-03');
     VALUES ('138040', '메리츠금융지주', '2024-12-27');
     VALUES ('305080', 'TIGER 미국채10년선물', '2024-12-18');
 

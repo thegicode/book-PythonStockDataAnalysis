@@ -8,9 +8,18 @@ sys.path.append(project_root)
 
 from src.MarketDB import MarketDB 
 
+stock_name = 'TIGER 미국채10년선물'
+# stock_name = 'KODEX 미국러셀2000(H)'
+# stock_name = 'PLUS 고배당주'
+# stock_name = '삼성전자'
+# stock_name = 'SOL 미국배당다우존스'
+# stock_name = 'KODEX 미국반도체MV'
+# stock_name = 'ACE 미국나스닥100'
+# stock_name = 'ACE 미국S&P500'
+
 
 mk = MarketDB()
-df = mk.get_daily_price('SK하이닉스', '2023-01-04')
+df = mk.get_daily_price(stock_name, '2024-01-04')
 
 df['MA20'] = df['close'].rolling(window=20).mean()  
 df['stddev'] = df['close'].rolling(window=20).std() 
@@ -25,7 +34,7 @@ df = df.dropna()
 plt.figure(figsize=(9, 9))
 
 plt.subplot(3, 1, 1)
-plt.title('SK Hynix Bollinger Band(20 day, 2 std) - Reversals')
+plt.title('Bollinger Band(20 day, 2 std) - Reversals')
 plt.plot(df.index, df['close'], 'b', label='Close')
 plt.plot(df.index, df['upper'], 'r--', label ='Upper band')
 plt.plot(df.index, df['MA20'], 'k--', label='Moving average 20')
