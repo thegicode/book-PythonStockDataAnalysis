@@ -11,7 +11,7 @@ sys.path.append(project_root)
 from src.MarketDB import MarketDB 
 
 mk = MarketDB()
-df = mk.get_daily_price('엔씨소프트', '2023-01-04')
+df = mk.get_daily_price('TIGER 200', '2023-01-04')
 
 # EMA와 MACD 계산
 ema60 = df.close.ewm(span=60).mean()   # 종가의 60일 지수 이동평균
@@ -34,7 +34,7 @@ mpf.plot(
     df,
     type='candle',
     addplot=apds,
-    title='Triple Screen Trading - First Screen (Naver)',
+    title='Triple Screen Trading - First Screen',
     style='yahoo',
     volume=False,
     panel_ratios=(3, 1),

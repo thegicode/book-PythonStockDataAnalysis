@@ -13,7 +13,7 @@ from src.MarketDB import MarketDB
 
 # 데이터 불러오기
 mk = MarketDB()
-df = mk.get_daily_price('엔씨소프트', '2023-01-04')
+df = mk.get_daily_price('TIGER 200', '2023-01-04')
 
 # EMA 및 MACD 계산
 ema60 = df.close.ewm(span=60).mean()
@@ -49,7 +49,7 @@ mpf.plot(
     df,
     type='candle',
     addplot=apds,
-    title='Triple Screen Trading - Second Screen (NCSOFT)',
+    title='Triple Screen Trading - Second Screen',
     style='yahoo',
     volume=False,
     panel_ratios=(3, 1),  # 패널 크기 비율

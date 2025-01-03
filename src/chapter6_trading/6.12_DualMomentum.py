@@ -159,13 +159,17 @@ class DualMomentum:
 
 def origin():
     dm = DualMomentum()
-    rm = dm.get_rltv_momentum('2024-06-01', '2024-12-01', 10)
+    rm = dm.get_rltv_momentum('2024-01-01', '2024-06-31', 5)
 
 def test1():
     dm = DualMomentum()
-    rm = dm.get_rltv_momentum('2024-06-01', '2024-09-01', 10)
-    am = dm.get_abs_momentum(rm, '2024-09-01', '2024-12-01')
+    rm = dm.get_rltv_momentum('2024-01-01', '2024-03-31', 5)
+    am = dm.get_abs_momentum(rm, '2024-04-01', '2024-06-31')
 
+print("origin")
 origin()
 
+print("Dual Momentum")
 test1()
+
+# 한국에서는 3개월

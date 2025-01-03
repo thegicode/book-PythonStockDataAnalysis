@@ -12,7 +12,7 @@ sys.path.append(project_root)
 
 from src.MarketDB import MarketDB 
 
-symbol = 'SK하이닉스'
+symbol = 'ACE 미국나스닥100'
 
 # 데이터 불러오기
 mk = MarketDB()
